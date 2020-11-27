@@ -1,4 +1,5 @@
 const router = require('express').Router();
+
 const { resumeDbFromSession } = require('../middlewares/session');
 
 const controllerCreateBD = require('../controllers/simple.create.controller');
