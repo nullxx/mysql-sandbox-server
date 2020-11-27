@@ -1,7 +1,7 @@
 function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+  const nMin = Math.ceil(min);
+  const nmax = Math.floor(max);
+  return Math.floor(Math.random() * (nmax - nMin + 1)) + nMin;
 }
 
 module.exports.getRandomInt = getRandomInt;

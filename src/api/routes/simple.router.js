@@ -5,17 +5,16 @@ const controllerCreateBD = require('../controllers/simple.create.controller');
 const controllerManage = require('../controllers/simple.manage.controller');
 
 router
-    .route('/query')
-    .post(
-        resumeDbFromSession,
-        controllerManage.runQuery
-    );
+  .route('/query')
+  .post(
+    resumeDbFromSession,
+    controllerManage.runQuery,
+  );
 
 router
-    .route('/createDB/:dbName')
-    .post(
-        controllerCreateBD.createDb
-    );
-
+  .route('/createDB/:dbName')
+  .post(
+    controllerCreateBD.createDb,
+  );
 
 module.exports = router;
