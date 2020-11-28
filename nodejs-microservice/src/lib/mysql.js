@@ -5,21 +5,21 @@ const { parseError } = require('../utils/mysql.utils');
 
 const createConnection = (host = process.env.MYSQL_HOST,
   user = process.env.MYSQL_ROOT_USER,
-  password = process.env.MYSQL_ROOT_PASSWORD) => new Promise((res, rej) => {
-
-    const conn = mysql.createConnection({
-      host,
-      user,
-      password,
-      port: parseInt(process.env.MYSQL_PORT, 10),
-    });
-
-    conn.connect((err) => {
-      if (err) rej(err);
-      libLogger.log('debug', 'MYSQL ROOT CONN SUCCESS');
-      res(conn);
-    });
+  password = process.env.MYSQL_ROOT_PASSWORD,
+  port = process.env.MYSQL_PORT) => new Promise((res, rej) => {
+  const conn = mysql.createConnection({
+    host,
+    user,
+    password,
+    port: parseInt(port, 10),
   });
+
+  conn.connect((err) => {
+    if (err) rej(err);
+    libLogger.log('debug', 'MYSQL ROOT CONN SUCCESS');
+    res(conn);
+  });
+});
 
 const runQuery = (conn, query, bind = []) => new Promise((res, rej) => {
   conn.query(query, bind, (err, result) => {
