@@ -1,5 +1,5 @@
 <h1 align="center">
-<img src="logo.svg" style="width: 120px">
+<img src="logo.svg" width="120">
     <p>
     MYSQL Sandbox
     </p>
