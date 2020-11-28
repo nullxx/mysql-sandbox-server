@@ -1,11 +1,11 @@
-version: "3.8"
+version: "2.4"
 services:
   mysql:
     build: mysql-microservice/.
     ports:
       - "6603:3306"
     volumes:
-      - /Users/nullx/sql-sandbox-server/mysql-microservice/data:/var/lib/mysql
+      - ./mysql-microservice/data:/var/lib/mysql
   api:
     build: nodejs-microservice/.
     ports:
@@ -17,7 +17,7 @@ services:
       MYSQL_ROOT_USER: root
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: test
-      MYSQL_HOST: '172.20.0.1'
+      MYSQL_HOST: 172.17.0.1
       MYSQL_PORT: 6603
       SESSION_SECRET: sessionsecret
       LOG_PATH: log
