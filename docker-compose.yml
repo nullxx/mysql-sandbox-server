@@ -13,13 +13,5 @@ services:
     external_links:
       - mysql:db
     env_file: nodejs-microservice/.env
-    environment:
-      MYSQL_ROOT_USER: root
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: test
-      MYSQL_HOST: 172.17.0.1
-      MYSQL_PORT: 6603
-      SESSION_SECRET: sessionsecret
-      LOG_PATH: log
     depends_on: 
       - mysql
