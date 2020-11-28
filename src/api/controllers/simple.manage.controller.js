@@ -12,4 +12,18 @@ const runQuery = async (req, res, next) => {
   }
 };
 
+const getActiveDB = async (req, res, next) => {
+  try {
+    const { dbName } = req;
+    if (dbName) {
+      res.send({ code: 1, data: { database: { name: dbName } } });
+    } else {
+      res.send({ code: 0, error: 'ERR_NO_DATABASE_CREATED' });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports.runQuery = runQuery;
+module.exports.getActiveDB = getActiveDB;

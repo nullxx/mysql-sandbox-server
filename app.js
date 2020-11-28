@@ -1,5 +1,6 @@
 const express = require('express');
 const session = require('express-session');
+const cors = require('cors');
 const { v4: uuidv4 } = require('uuid');
 
 const libMysql = require('./src/lib/mysql');
@@ -15,6 +16,10 @@ const port = 3001;
     app.locals.connections = [];
     app.locals.mysqlConn = await libMysql.createConnection();
 
+    app.use(cors({
+      credentials: true,
+      origin: 'http://localhost:3000',
+    }));
     app.use(express.json());
     app.use(express.urlencoded({ extended: false }));
     app.use(session({
@@ -27,7 +32,8 @@ const port = 3001;
     app.use('/', routers);
 
     app.use((err, _req, res, _next) => {
-      res.send({ code: -1, error: err });
+      console.log(err);
+      res.send({ code: -1, error: err.message });
       _next();
     });
 
