@@ -11,7 +11,14 @@ This is the backend for mysql-sandbox. This is a online real database program to
 ## Requirements
 * Docker
 ## Building
-```docker-compose up --build```
+This repo has two containers:
+* MySQL container
+  * Port exposed: [6603](https://github.com/nullxx/mysql-sandbox-server/blob/f4a2241f4075c50d4b57b49ac165dcf438956ecc/docker-compose.yml#L6)
+* api container
+  * Port exposed: [3001](https://github.com/nullxx/mysql-sandbox-server/blob/f4a2241f4075c50d4b57b49ac165dcf438956ecc/docker-compose.yml#L12)
+
+* ```cp .env.example .env``` inside ```./nodejs-microservice``` and place there your environment variables.
+* ```docker-compose up --build```
 
 
 ## Attribution
