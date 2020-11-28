@@ -32,7 +32,6 @@ const port = 3001;
     app.use('/', routers);
 
     app.use((err, _req, res, _next) => {
-      console.log(err);
       res.send({ code: -1, error: err.message });
       _next();
     });
