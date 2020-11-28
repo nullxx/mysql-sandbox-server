@@ -27,7 +27,7 @@ const port = 3001;
       resave: false,
       saveUninitialized: true,
       cookie: { secure: false },
-      genid: () => uuidv4(),
+      genid: () => uuidv4().substring(0, 16),
     }));
     app.use('/', routers);
 
@@ -54,7 +54,7 @@ async function exitHandler(options, exitCode) {
     for (let i = 0; i < connections.length; i += 1) {
       const conn = connections[i];
       operations.push(libMysql.runQuery(app.locals.mysqlConn, 'DROP DATABASE ??;', [conn.dbName]));
-      operations.push(libMysql.runQuery(app.locals.mysqlConn, 'DROP USER ?@\'localhost\';', [conn.user]));
+      operations.push(libMysql.runQuery(app.locals.mysqlConn, 'DROP USER ?@\'%\';', [conn.user]));
     }
     await Promise.all(operations);
   } catch (error) {

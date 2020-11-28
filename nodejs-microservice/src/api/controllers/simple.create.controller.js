@@ -5,8 +5,9 @@ const createSecureConnection = async (mysqlConn, dbName, session) => {
   const user = `user_${getRandomInt(0, 512)}_${session}`;
   const password = `pass_${getRandomInt(0, 512)}_${session}`;
 
-  await libMysql.runQuery(mysqlConn, 'CREATE USER ?@\'localhost\' IDENTIFIED BY ?;', [user, password]);
-  await libMysql.runQuery(mysqlConn, 'GRANT ALL ON ??.* TO ?@\'localhost\';', [dbName, user]);
+  await libMysql.runQuery(mysqlConn, 'CREATE USER ?@\'%\' IDENTIFIED BY ?;', [user, password]);
+  await libMysql.runQuery(mysqlConn, 'GRANT ALL PRIVILEGES ON ??.* TO ?@\'%\';', [dbName, user]);
+  await libMysql.runQuery(mysqlConn, 'FLUSH PRIVILEGES;');
 
   const conn = await libMysql.createConnection(undefined, user, password);
   await libMysql.changeUser(conn, dbName);
