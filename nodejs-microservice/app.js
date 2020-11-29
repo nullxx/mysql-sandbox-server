@@ -16,7 +16,7 @@ const port = 3001;
 (async () => {
   try {
     app.locals.connections = [];
-    app.locals.mysqlConn = await libMysql.createPool();
+    app.locals.mysqlPool = await libMysql.createPool();
 
     app.use(morgan(process.env.EXPRESS_LOGGING_TYPE));
     app.use(cors({
@@ -53,7 +53,7 @@ async function exitHandler(options, exitCode) {
   try {
     const { connections } = app.locals;
     const operations = [];
-    const rootConnection = await getConnection(app.locals.mysqlConn);
+    const rootConnection = await getConnection(app.locals.mysqlPool);
     for (let i = 0; i < connections.length; i += 1) {
       const conn = connections[i];
 

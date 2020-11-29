@@ -1,5 +1,6 @@
 const libMysql = require('../../lib/mysql');
 const { getRandomInt } = require('../../utils/compute');
+const { getConnection } = require('../../utils/mysql.utils');
 
 const createSecureConnection = async (mysqlConn, dbName, session) => {
   const user = `user_${getRandomInt(0, 512)}_${session}`;
@@ -20,13 +21,15 @@ const createDb = async (req, res, next) => {
   const { dbName } = req.params;
   if (dbName) {
     try {
-      await libMysql.runQuery(req.app.locals.mysqlConn, 'CREATE DATABASE ??', [dbName]);
+      const mysqConn = await getConnection(req.app.locals.mysqlPool);
+      await libMysql.runQuery(mysqConn, 'CREATE DATABASE ??', [dbName]);
 
       const secureSandboxInfo = await createSecureConnection(
-        req.app.locals.mysqlConn,
+        mysqConn,
         dbName,
         req.session.id,
       );
+      mysqConn.release();
       req.app.locals.connections.push(secureSandboxInfo);
 
       res.send({ code: 1, data: { database: { name: dbName } } });
