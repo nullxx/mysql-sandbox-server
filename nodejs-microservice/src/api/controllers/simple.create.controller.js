@@ -9,8 +9,8 @@ const createSecureConnection = async (mysqlConn, dbName, session) => {
   await libMysql.runQuery(mysqlConn, 'GRANT ALL PRIVILEGES ON ??.* TO ?@\'%\';', [dbName, user]);
   await libMysql.runQuery(mysqlConn, 'FLUSH PRIVILEGES;');
 
-  const conn = await libMysql.createConnection(undefined, user, password, dbName);
-  // await libMysql.changeUser(conn, dbName); // unnecesary
+  const conn = await libMysql.createConnection(undefined, user, password);
+  await libMysql.changeUser(conn, dbName);
 
   return {
     dbName, session, mysql: conn, user, password,

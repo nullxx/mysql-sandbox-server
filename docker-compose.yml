@@ -6,6 +6,7 @@ services:
       - "6603:3306"
     volumes:
       - ./mysql-microservice/data:/var/lib/mysql
+    restart: always
   api:
     build: nodejs-microservice/.
     ports:
@@ -15,3 +16,4 @@ services:
     env_file: nodejs-microservice/.env
     depends_on: 
       - mysql
+    restart: always
