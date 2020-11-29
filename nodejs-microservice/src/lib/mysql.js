@@ -6,12 +6,14 @@ const { parseError } = require('../utils/mysql.utils');
 const createConnection = (host = process.env.MYSQL_HOST,
   user = process.env.MYSQL_ROOT_USER,
   password = process.env.MYSQL_ROOT_PASSWORD,
-  port = process.env.MYSQL_PORT) => new Promise((res, rej) => {
-  const conn = mysql.createConnection({
+  port = process.env.MYSQL_PORT,
+  database = undefined) => new Promise((res, rej) => {
+  const conn = mysql.createPool({
     host,
     user,
     password,
     port: parseInt(port, 10),
+    database,
   });
 
   conn.connect((err) => {
