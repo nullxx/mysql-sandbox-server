@@ -16,11 +16,11 @@ const createConnection = (host = process.env.MYSQL_HOST,
     database,
   });
 
-  conn.connect((err) => {
-    if (err) rej(err);
+  conn.on('connection', (dbConn) => {
     libLogger.log('debug', 'MYSQL ROOT CONN SUCCESS');
-    res(conn);
+    res(dbConn);
   });
+  conn.on('error', (err) => rej(err));
 });
 
 const runQuery = (conn, query, bind = []) => new Promise((res, rej) => {
