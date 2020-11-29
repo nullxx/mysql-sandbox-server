@@ -28,8 +28,11 @@ const resumeDbFromSessionSoft = (req, _res, next) => {
   }
   return next();
 };
-
-const closeResumedDbSession = async (req, _res, next) => {
+const closeResumedDbSessionError = (err, req, _res, next) => {
+    req.mysql.release();
+    next(err);
+}
+const closeResumedDbSession = (req, _res, next) => {
   try {
     req.mysql.release();
   } catch (error) {
