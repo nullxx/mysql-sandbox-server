@@ -45,3 +45,4 @@ const closeResumedDbSession = (req, _res, next) => {
 module.exports.resumeDbFromSession = resumeDbFromSession;
 module.exports.resumeDbFromSessionSoft = resumeDbFromSessionSoft;
 module.exports.closeResumedDbSession = closeResumedDbSession;
+module.exports.closeResumedDbSessionError = closeResumedDbSessionError;
