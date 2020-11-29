@@ -7,6 +7,7 @@ const libMysql = require('./src/lib/mysql');
 const libLogger = require('./src/lib/logger');
 const routers = require('./src/api/routes');
 const logger = require('./src/lib/logger');
+const { getConnection } = require('./src/utils/mysql.utils');
 
 const app = express();
 const port = 3001;
@@ -14,7 +15,7 @@ const port = 3001;
 (async () => {
   try {
     app.locals.connections = [];
-    app.locals.mysqlConn = await libMysql.createConnection();
+    app.locals.mysqlConn = await libMysql.createPool();
 
     app.use(cors({
       credentials: true,
@@ -50,12 +51,15 @@ async function exitHandler(options, exitCode) {
   try {
     const { connections } = app.locals;
     const operations = [];
+    const rootConnection = await getConnection(app.locals.mysqlConn);
     for (let i = 0; i < connections.length; i += 1) {
       const conn = connections[i];
-      operations.push(libMysql.runQuery(app.locals.mysqlConn, 'DROP DATABASE ??;', [conn.dbName]));
-      operations.push(libMysql.runQuery(app.locals.mysqlConn, 'DROP USER ?@\'%\';', [conn.user]));
+
+      operations.push(libMysql.runQuery(rootConnection, 'DROP DATABASE ??;', [conn.dbName]));
+      operations.push(libMysql.runQuery(rootConnection, 'DROP USER ?@\'%\';', [conn.user]));
     }
     await Promise.all(operations);
+    rootConnection.release();
   } catch (error) {
     libLogger.log('error', 'ON EXIT', error);
   }

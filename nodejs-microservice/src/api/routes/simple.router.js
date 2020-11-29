@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const { resumeDbFromSession, resumeDbFromSessionSoft } = require('../middlewares/session');
+const { resumeDbFromSession, resumeDbFromSessionSoft, closeResumedDbSession } = require('../middlewares/session');
 
 const controllerCreateBD = require('../controllers/simple.create.controller');
 const controllerManage = require('../controllers/simple.manage.controller');
@@ -17,6 +17,7 @@ router
   .post(
     resumeDbFromSession,
     controllerManage.runQuery,
+    closeResumedDbSession,
   );
 
 router

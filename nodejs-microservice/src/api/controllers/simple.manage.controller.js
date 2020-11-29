@@ -9,6 +9,8 @@ const runQuery = async (req, res, next) => {
     }
   } catch (error) {
     next(error);
+  } finally {
+    next();
   }
 };
 
@@ -22,6 +24,8 @@ const getActiveDB = async (req, res, next) => {
     }
   } catch (error) {
     next(error);
+  } finally {
+    next();
   }
 };
 
