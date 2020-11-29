@@ -1,5 +1,6 @@
 const express = require('express');
 const session = require('express-session');
+const morgan = require('morgan');
 const cors = require('cors');
 const { v4: uuidv4 } = require('uuid');
 
@@ -17,6 +18,7 @@ const port = 3001;
     app.locals.connections = [];
     app.locals.mysqlConn = await libMysql.createPool();
 
+    app.use(morgan(process.env.EXPRESS_LOGGING_TYPE));
     app.use(cors({
       credentials: true,
       origin: 'http://localhost:3000',
