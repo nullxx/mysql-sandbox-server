@@ -17,7 +17,7 @@ router
   .post(
     resumeDbFromSession,
     controllerManage.runQuery,
-    closeResumedDbSessionError
+    closeResumedDbSessionError,
     closeResumedDbSession,
   );
 
