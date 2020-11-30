@@ -61,9 +61,10 @@ async function exitHandler(options, exitCode) {
       operations.push(libMysql.runQuery(rootConnection, 'DROP USER ?@\'%\';', [conn.user]));
     }
     await Promise.all(operations);
-    rootConnection.release();
   } catch (error) {
     libLogger.log('error', 'ON EXIT', error);
+  } finally {
+    rootConnection.release();
   }
   if (options.cleanup) logger.log('info', 'CLEANUP');
   if (exitCode || exitCode === 0) logger.log('info', 'EXIT CODE', exitCode);
