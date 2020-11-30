@@ -50,10 +50,11 @@ const port = 3001;
 process.stdin.resume(); // so the program will not close instantly
 
 async function exitHandler(options, exitCode) {
+  let rootConnection = null;
   try {
     const { connections } = app.locals;
     const operations = [];
-    const rootConnection = await getConnection(app.locals.mysqlPool);
+    rootConnection = await getConnection(app.locals.mysqlPool);
     for (let i = 0; i < connections.length; i += 1) {
       const conn = connections[i];
 
@@ -64,7 +65,9 @@ async function exitHandler(options, exitCode) {
   } catch (error) {
     libLogger.log('error', 'ON EXIT', error);
   } finally {
-    rootConnection.release();
+    if (rootConnection) {
+        rootConnection.release();
+    }
   }
   if (options.cleanup) logger.log('info', 'CLEANUP');
   if (exitCode || exitCode === 0) logger.log('info', 'EXIT CODE', exitCode);
