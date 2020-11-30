@@ -29,12 +29,14 @@ const createDb = async (req, res, next) => {
         dbName,
         req.session.id,
       );
-      mysqConn.release();
+
       req.app.locals.connections.push(secureSandboxInfo);
 
       res.send({ code: 1, data: { database: { name: dbName } } });
     } catch (error) {
       next(error);
+    } finally {
+      mysqConn.release();
     }
   }
 };
