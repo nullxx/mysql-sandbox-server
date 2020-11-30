@@ -19,13 +19,14 @@ const createSecureConnection = async (mysqlConn, dbName, session) => {
 
 const createDb = async (req, res, next) => {
   const { dbName } = req.params;
+  let mysqlConn = null;
   if (dbName) {
     try {
-      const mysqConn = await getConnection(req.app.locals.mysqlPool);
-      await libMysql.runQuery(mysqConn, 'CREATE DATABASE ??', [dbName]);
+      mysqlConn = await getConnection(req.app.locals.mysqlPool);
+      await libMysql.runQuery(mysqlConn, 'CREATE DATABASE ??', [dbName]);
 
       const secureSandboxInfo = await createSecureConnection(
-        mysqConn,
+        mysqlConn,
         dbName,
         req.session.id,
       );
@@ -35,8 +36,9 @@ const createDb = async (req, res, next) => {
       res.send({ code: 1, data: { database: { name: dbName } } });
     } catch (error) {
       next(error);
-    } finally {
-      mysqConn.release();
+    }
+    if (mysqlConn) {
+      mysqlConn.release();
     }
   }
 };
