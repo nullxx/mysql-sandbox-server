@@ -33,8 +33,11 @@ const closeResumedDbSessionError = (err, req, _res, next) => {
     next(err);
 }
 const closeResumedDbSession = (req, _res, next) => {
+// this will be executed only when error ocurred
   try {
-    req.mysql.release();
+    if (req.mysql) { // an error could be thrown before set req.mysql
+        req.mysql.release();
+    }
   } catch (error) {
     next(error);
   } finally {
