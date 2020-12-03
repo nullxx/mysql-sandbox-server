@@ -12,6 +12,7 @@ const createPool = (host = process.env.MYSQL_HOST,
     user,
     password,
     port: parseInt(port, 10),
+    multipleStatements: true,
   });
 
   conn.on('acquire', (c) => libLogger.log('debug', `Connection ${c.threadId} adquired`));
