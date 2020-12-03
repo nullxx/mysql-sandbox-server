@@ -35,7 +35,12 @@ const port = 3001;
     app.use('/', routers);
 
     app.use((err, _req, res, _next) => {
-      res.send({ code: -1, error: err.message });
+      res.send({
+        code: -1,
+        error: {
+          message: err.message, type: err.type ? err.type : undefined,
+        },
+      });
       _next();
     });
 
@@ -66,7 +71,7 @@ async function exitHandler(options, exitCode) {
     libLogger.log('error', 'ON EXIT', error);
   } finally {
     if (rootConnection) {
-        rootConnection.release();
+      rootConnection.release();
     }
   }
   if (options.cleanup) logger.log('info', 'CLEANUP');
