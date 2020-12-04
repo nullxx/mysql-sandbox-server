@@ -15,4 +15,4 @@ RUN npm install
 COPY . .
 
 # Run app
-CMD ["npm", "start"]
+CMD ["node", "-r", "dotenv/config", "app.js", "dotenv_config_path=.env"]
