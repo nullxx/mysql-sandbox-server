@@ -3,6 +3,7 @@ const session = require('express-session');
 const morgan = require('morgan');
 const cors = require('cors');
 const { v4: uuidv4 } = require('uuid');
+const csurf = require('csurf');
 
 const libMysql = require('./src/lib/mysql');
 const libLogger = require('./src/lib/logger');
@@ -32,6 +33,8 @@ const port = 3001;
       cookie: { secure: false },
       genid: () => uuidv4().substring(0, 16),
     }));
+    app.use(csurf({ cookie: true }));
+
     app.use('/', routers);
 
     app.use((err, _req, res, _next) => {
