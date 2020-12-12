@@ -17,6 +17,7 @@
     "express-session": "^1.17.1",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
+    "mysqldump": "^3.2.0",
     "uuid": "^8.3.1",
     "winston": "^3.3.3"
   },

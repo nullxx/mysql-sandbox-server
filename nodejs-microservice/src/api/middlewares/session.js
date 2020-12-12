@@ -33,10 +33,24 @@ const resumeDbFromSessionSoft = (req, _res, next) => {
   }
   return next();
 };
+
+const resumeDBData = (req, _res, next) => {
+  const { connections } = req.app.locals;
+  for (let i = 0; i < connections.length; i += 1) {
+    const conn = connections[i];
+    if (conn.session === req.session.id) {
+      req.dbName = conn.dbName;
+      req.user = conn.user;
+      req.password = conn.password;
+      return next();
+    }
+  }
+  return next();
+};
 const closeResumedDbSessionError = (err, req, _res, next) => {
   req.mysql.release();
   next(err);
-}
+};
 const closeResumedDbSession = (req, _res, next) => {
   // this will be executed only when error ocurred
   try {
@@ -52,5 +66,6 @@ const closeResumedDbSession = (req, _res, next) => {
 
 module.exports.resumeDbFromSession = resumeDbFromSession;
 module.exports.resumeDbFromSessionSoft = resumeDbFromSessionSoft;
+module.exports.resumeDBData = resumeDBData;
 module.exports.closeResumedDbSession = closeResumedDbSession;
 module.exports.closeResumedDbSessionError = closeResumedDbSessionError;

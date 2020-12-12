@@ -1,9 +1,16 @@
 const router = require('express').Router();
 
-const { resumeDbFromSession, resumeDbFromSessionSoft, closeResumedDbSession, closeResumedDbSessionError } = require('../middlewares/session');
+const {
+  resumeDbFromSession,
+  resumeDbFromSessionSoft,
+  resumeDBData,
+  closeResumedDbSession,
+  closeResumedDbSessionError,
+} = require('../middlewares/session');
 
 const controllerCreateBD = require('../controllers/simple.create.controller');
 const controllerManage = require('../controllers/simple.manage.controller');
+const exportController = require('../controllers/export.controller');
 
 router
   .route('/getActiveDB')
@@ -25,6 +32,13 @@ router
   .route('/createDB/:dbName')
   .post(
     controllerCreateBD.createDb,
+  );
+
+router
+  .route('/export/dump')
+  .post(
+    resumeDBData,
+    exportController.mysqlDump,
   );
 
 module.exports = router;
