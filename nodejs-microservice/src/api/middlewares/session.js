@@ -3,10 +3,12 @@ const libMysql = require('../../lib/mysql');
 
 const resumeDbFromSession = async (req, _res, next) => {
   const { connections } = req.app.locals;
+  const { identifier } = req.body;
+
   try {
     for (let i = 0; i < connections.length; i += 1) {
       const conn = connections[i];
-      if (conn.session === req.session.id) {
+      if (conn.session === req.session.id || (identifier && conn.identifier === identifier)) {
         // eslint-disable-next-line no-await-in-loop
         req.mysql = await getConnection(conn.mysql);
         // eslint-disable-next-line no-await-in-loop
@@ -19,13 +21,15 @@ const resumeDbFromSession = async (req, _res, next) => {
   } catch (error) {
     next(error);
   }
-  return next(new Error('Please create a database'));
+  return next(new Error('Database not found.'));
 };
 const resumeDbFromSessionSoft = (req, _res, next) => {
   const { connections } = req.app.locals;
+  const { identifier } = req.body;
+
   for (let i = 0; i < connections.length; i += 1) {
     const conn = connections[i];
-    if (conn.session === req.session.id) {
+    if (conn.session === req.session.id || (identifier && conn.identifier === identifier)) {
       req.mysql = conn.mysql;
       req.dbName = conn.dbName;
       return next();
@@ -36,9 +40,11 @@ const resumeDbFromSessionSoft = (req, _res, next) => {
 
 const resumeDBData = (req, _res, next) => {
   const { connections } = req.app.locals;
+  const { identifier } = req.body;
+
   for (let i = 0; i < connections.length; i += 1) {
     const conn = connections[i];
-    if (conn.session === req.session.id) {
+    if (conn.session === req.session.id || (identifier && conn.identifier === identifier)) {
       req.dbName = conn.dbName;
       req.user = conn.user;
       req.password = conn.password;
@@ -48,7 +54,9 @@ const resumeDBData = (req, _res, next) => {
   return next();
 };
 const closeResumedDbSessionError = (err, req, _res, next) => {
-  req.mysql.release();
+  if (req.mysql) {
+    req.mysql.release();
+  }
   next(err);
 };
 const closeResumedDbSession = (req, _res, next) => {
