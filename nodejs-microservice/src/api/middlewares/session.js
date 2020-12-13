@@ -3,7 +3,7 @@ const libMysql = require('../../lib/mysql');
 
 const resumeDbFromSession = async (req, _res, next) => {
   const { connections } = req.app.locals;
-  const { identifier } = req.body;
+  const { identifier } = req.query;
 
   try {
     for (let i = 0; i < connections.length; i += 1) {
@@ -25,14 +25,14 @@ const resumeDbFromSession = async (req, _res, next) => {
 };
 const resumeDbFromSessionSoft = (req, _res, next) => {
   const { connections } = req.app.locals;
-  const { identifier } = req.body;
+  const { identifier } = req.query;
 
   for (let i = 0; i < connections.length; i += 1) {
     const conn = connections[i];
     if (conn.session === req.session.id || (identifier && conn.identifier === identifier)) {
       req.mysql = conn.mysql;
       req.dbName = conn.dbName;
-      req.identifier = identifier;
+      req.identifier = conn.identifier;
       return next();
     }
   }
@@ -41,7 +41,7 @@ const resumeDbFromSessionSoft = (req, _res, next) => {
 
 const resumeDBData = (req, _res, next) => {
   const { connections } = req.app.locals;
-  const { identifier } = req.body;
+  const { identifier } = req.query;
 
   for (let i = 0; i < connections.length; i += 1) {
     const conn = connections[i];
