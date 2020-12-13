@@ -32,6 +32,7 @@ const resumeDbFromSessionSoft = (req, _res, next) => {
     if (conn.session === req.session.id || (identifier && conn.identifier === identifier)) {
       req.mysql = conn.mysql;
       req.dbName = conn.dbName;
+      req.identifier = identifier;
       return next();
     }
   }
