@@ -6,7 +6,7 @@ const {
   resumeDBData,
   closeResumedDbSession,
   closeResumedDbSessionError,
-} = require('../middlewares/session');
+} = require('../middlewares/session.middleware');
 
 const controllerCreateBD = require('../controllers/simple.create.controller');
 const controllerManage = require('../controllers/simple.manage.controller');
