@@ -10,6 +10,16 @@
 ![GitHub Repo stars](https://img.shields.io/github/stars/nullxx/mysql-sandbox-server?style=for-the-badge)
 ![GitHub last commit](https://img.shields.io/github/last-commit/nullxx/mysql-sandbox-server?style=for-the-badge)
 
+<details open="open">
+  <summary>Table of Contents</summary>
+  <ol>
+    <li><a href="#getting-started">Getting started</a></li>
+    <li><a href="#requirements">Requirements</a></li>
+    <li><a href="#installation">Installation</a></li>
+    <li><a href="#acknowledgements">Acknowledgements</a></li>
+  </ol>
+</details>
+
 # Getting started
 This is the backend for mysql-sandbox. This is a online real database program to test your mysql queries.
 
@@ -17,7 +27,7 @@ You can see a demo [here](https://mysql-sandbox.nullx.me/)
 # Develop
 ## Requirements
 * Docker
-## Building
+## Installation
 This repo has two containers:
 * MySQL container
   * Port exposed: [6603](https://github.com/nullxx/mysql-sandbox-server/blob/f4a2241f4075c50d4b57b49ac165dcf438956ecc/docker-compose.yml#L6)
@@ -37,5 +47,5 @@ docker-compose up --build
 ```
 
 
-## Attribution
+## Acknowledgements
 <div>Icon designed by <a href="https://www.flaticon.es/autores/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.es/" title="Flaticon">www.flaticon.es</a></div>
