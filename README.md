@@ -1,3 +1,4 @@
+
 <h1 align="center">
 <img src="logo.svg" width="120">
     <p>
@@ -33,19 +34,16 @@ This repo has two containers:
   * Port exposed: [6603](https://github.com/nullxx/mysql-sandbox-server/blob/f4a2241f4075c50d4b57b49ac165dcf438956ecc/docker-compose.yml#L6)
 * api container
   * Port exposed: [3001](https://github.com/nullxx/mysql-sandbox-server/blob/f4a2241f4075c50d4b57b49ac165dcf438956ecc/docker-compose.yml#L12)
-* Place environment variables
-```bash
-cp ./nodejs-microservice/.env.example .env
-```
-* Edit ```.env```variable with your favourite text editor
-```bash
-nano .env
-```
-* Run it
-```bash
-docker-compose up --build
-```
+* Steps to follow:
+   * Place environment variables
+   * Edit ```.env```variable with your favourite text editor
+   * Run it
 
+    ```console
+    nullxx@github:~$ cp ./nodejs-microservice/.env.example .env
+    nullxx@github:~$ nano .env
+    nullxx@github:~$ docker-compose up --build
+    ```
 
 ## Acknowledgements
 <div>Icon designed by <a href="https://www.flaticon.es/autores/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.es/" title="Flaticon">www.flaticon.es</a></div>
