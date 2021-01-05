@@ -9,16 +9,6 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-
--- create the databases
--- CREATE DATABASE IF NOT EXISTS `mysql-sandbox`;
-
--- create the users for each database
--- CREATE USER 'root'@'%' IDENTIFIED BY 'password';
--- GRANT CREATE, ALTER, INDEX, LOCK TABLES, REFERENCES, UPDATE, DELETE, DROP, SELECT, INSERT ON `mysql-sandbox`.* TO 'root'@'%';
-
--- FLUSH PRIVILEGES;
-
 CREATE TABLE IF NOT EXISTS `databases` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
