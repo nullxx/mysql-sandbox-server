@@ -1,29 +1,15 @@
 const libMysql = require('../../lib/mysql');
-const { getRandomInt, generateShort } = require('../../utils/compute');
+const DB = require('../../lib/DB');
+
 const { getConnection } = require('../../utils/mysql.utils');
-
-const createSecureConnection = async (mysqlConn, dbName, session) => {
-  const user = `user_${getRandomInt(0, 512)}_${session}`;
-  const password = `pass_${getRandomInt(0, 512)}_${session}`;
-  const identifier = generateShort();
-
-  await libMysql.runQuery(mysqlConn, 'CREATE USER ?@\'%\' IDENTIFIED BY ?;', [user, password]);
-  await libMysql.runQuery(mysqlConn, 'GRANT ALL PRIVILEGES ON ??.* TO ?@\'%\';', [dbName, user]);
-  await libMysql.runQuery(mysqlConn, 'FLUSH PRIVILEGES;');
-
-  const conn = await libMysql.createPool(undefined, user, password);
-
-  return {
-    dbName, session, mysql: conn, user, password, identifier,
-  };
-};
+const { createSecureConnection } = require('../../utils/create');
 
 const createDb = async (req, res, next) => {
   const { dbName } = req.params;
   let mysqlConn = null;
   if (dbName) {
     try {
-      mysqlConn = await getConnection(req.app.locals.mysqlPool);
+      mysqlConn = await getConnection(global.mysqlPool);
       await libMysql.runQuery(mysqlConn, 'CREATE DATABASE ??', [dbName]);
 
       const secureSandboxInfo = await createSecureConnection(
@@ -31,6 +17,14 @@ const createDb = async (req, res, next) => {
         dbName,
         req.session.id,
       );
+
+      await DB.createDatabase(mysqlConn, {
+        name: secureSandboxInfo.dbName,
+        exId: secureSandboxInfo.identifier,
+        sessionId: secureSandboxInfo.session,
+        user: secureSandboxInfo.user,
+        password: secureSandboxInfo.password,
+      });
 
       req.app.locals.connections.push(secureSandboxInfo);
 
