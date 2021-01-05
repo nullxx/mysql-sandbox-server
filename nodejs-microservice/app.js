@@ -80,7 +80,7 @@ const port = 3001;
 process.stdin.resume(); // so the program will not close instantly
 
 async function exitHandler(opts) {
-  if (opts.del) {
+  if (opts.reset) {
     let rootConnection = null;
     try {
       const { connections } = app.locals;
@@ -101,25 +101,23 @@ async function exitHandler(opts) {
       }
     }
     libLogger.log('info', 'EXITING', opts);
-    process.exit();
-  } else {
-    process.exit();
   }
+  process.exit();
 }
 
 // do something when app is closing
-process.on('exit', exitHandler.bind({ del: false }));
+process.on('exit', exitHandler.bind({ reset: false }));
 
 // catches ctrl+c event
-process.on('SIGINT', exitHandler.bind({ del: false }));
+process.on('SIGINT', exitHandler.bind({ reset: false }));
 
 // catches "kill pid" (for example: nodemon restart)
-process.on('SIGUSR1', exitHandler.bind({ del: false }));
-process.on('SIGUSR2', exitHandler.bind({ del: false }));
+process.on('SIGUSR1', exitHandler.bind({ reset: false }));
+process.on('SIGUSR2', exitHandler.bind({ reset: false }));
 
 // docker exit
-process.on('SIGTERM', exitHandler.bind({ del: false }));
-process.on('beforeExit', exitHandler.bind({ del: false }));
+process.on('SIGTERM', exitHandler.bind({ reset: false }));
+process.on('beforeExit', exitHandler.bind({ reset: false }));
 
 // catches uncaught exceptions
-process.on('uncaughtException', exitHandler.bind({ del: false }));
+process.on('uncaughtException', exitHandler.bind({ reset: false }));
