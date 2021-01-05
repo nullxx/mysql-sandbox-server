@@ -36,7 +36,7 @@ This repo has two containers:
   * Port exposed: [3001](https://github.com/nullxx/mysql-sandbox-server/blob/f4a2241f4075c50d4b57b49ac165dcf438956ecc/docker-compose.yml#L12)
 * Steps to follow:
    * Place environment variables
-   * Edit ```.env```variable with your favourite text editor
+   * Edit ```.env``` variable with your favourite text editor
    * Run it
 
     ```console
