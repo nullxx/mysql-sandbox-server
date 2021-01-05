@@ -121,3 +121,4 @@ process.on('beforeExit', exitHandler.bind({ reset: false }));
 
 // catches uncaught exceptions
 process.on('uncaughtException', exitHandler.bind({ reset: false }));
+
