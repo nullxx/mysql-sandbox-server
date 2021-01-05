@@ -40,8 +40,8 @@ This repo has two containers:
    * Run it
 
     ```console
-    nullxx@github:~$ cp ./nodejs-microservice/.env.example .env
-    nullxx@github:~$ nano .env
+    nullxx@github:~$ cp ./nodejs-microservice/.env.example ./nodejs-microservice/.env
+    nullxx@github:~$ nano ./nodejs-microservice/.env
     nullxx@github:~$ docker-compose up --build
     ```
     <details>
