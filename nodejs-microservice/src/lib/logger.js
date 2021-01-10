@@ -16,11 +16,7 @@ const log = (type, ...args) => {
   for (let i = 0; i < args.length; i += 1) {
     const arg = args[i];
     logStr += '\n';
-    if (i === args.length - 1 && typeof arg === 'object' && arg.user) {
-      logStr = `USER: ${arg.user.id}${logStr}`;
-    } else {
-      logStr += `\t${arg}`;
-    }
+    logStr += `\t${arg}`;
   }
   logger.log(type, logStr);
 };
