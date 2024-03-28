@@ -1,5 +1,5 @@
 ## Pull the mysql:5.7 image
-FROM mysql:5.7
+FROM mysql:8.0
 
 ENV MYSQL_DATABASE=mysql-sandbox \
     MYSQL_ROOT_PASSWORD=password

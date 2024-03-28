@@ -1,19 +1,25 @@
-version: "2.4"
+version: "3"
 services:
   mysql:
     build: mysql-microservice/.
-    ports:
-      - "6603:3306"
+    command: --default-authentication-plugin=mysql_native_password
     volumes:
       - ./mysql-microservice/data:/var/lib/mysql
     restart: always
+    networks:
+      - mysql-api
   api:
     build: nodejs-microservice/.
     ports:
       - "3001:3001"
-    external_links:
-      - mysql:db
     env_file: nodejs-microservice/.env
+    environment:
+      MYSQL_HOST: mysql
     depends_on: 
       - mysql
     restart: always
+    networks:
+      - mysql-api
+
+networks:
+  mysql-api:
